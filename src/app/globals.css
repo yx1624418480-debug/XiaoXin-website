@@ -1,0 +1,239 @@
+@import 'https://fonts.googleapis.cn/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;700&display=swap';
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-ink: #111111;
+  --color-cream: #ffffff;
+  --color-paper: #ffffff;
+  --color-brutal-pink: #f9a8d4;
+  --color-brutal-blue: #93c5fd;
+  --color-brutal-green: #86efac;
+  --color-brutal-yellow: #fde047;
+  --color-brutal-purple: #d8b4fe;
+
+  --font-sans:
+    'Inter', 'Noto Sans SC', 'PingFang SC', 'Hiragino Sans GB',
+    'Microsoft YaHei', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  /* 英文展示字体：Inter 常规/中等，干净舒展，不用特粗海报体 */
+  --font-display:
+    'Inter', 'Helvetica Neue', Helvetica, Arial, 'Noto Sans SC', sans-serif;
+}
+
+:root {
+  --background: #f0f0f0;
+  --foreground: #111111;
+}
+
+* {
+  border-color: #111111;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: clip;
+  background-color: #f0f0f0;
+}
+
+body {
+  background-color: #f0f0f0;
+  color: #111111;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ============ 新粗野主义工具类 ============ */
+
+/* 粗黑描边 */
+@utility border-brutal {
+  border: 3px solid #111111;
+}
+@utility border-brutal-thin {
+  border: 2px solid #111111;
+}
+
+/* 硬投影（无模糊） */
+@utility shadow-brutal {
+  box-shadow: 4px 4px 0 0 #111111;
+}
+@utility shadow-brutal-sm {
+  box-shadow: 3px 3px 0 0 #111111;
+}
+@utility shadow-brutal-lg {
+  box-shadow: 6px 6px 0 0 #111111;
+}
+@utility shadow-brutal-white {
+  box-shadow: 4px 4px 0 0 #ffffff;
+}
+
+/* 抬起交互：hover 时位移 + 投影变大 */
+@utility brutal-hover {
+  transition:
+    transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.15s ease;
+}
+@utility brutal-hover-active {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 0 #111111;
+}
+
+/* 马克笔高亮色块（文字底色）——粗黑描边 + 硬投影，像贴上去的贴纸 */
+@utility hl-pink {
+  background: #f15fa8;
+  color: #111111;
+  padding: 0.1em 0.32em;
+  border: 3px solid #111111;
+  border-radius: 4px;
+  box-shadow: 3px 3px 0 0 #111111;
+  line-height: 1.25;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+@utility hl-blue {
+  background: #3b82f6;
+  color: #ffffff;
+  padding: 0.1em 0.32em;
+  border: 3px solid #111111;
+  border-radius: 4px;
+  box-shadow: 3px 3px 0 0 #111111;
+  line-height: 1.25;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+@utility hl-green {
+  background: #86efac;
+  color: #111111;
+  padding: 0.1em 0.32em;
+  border: 3px solid #111111;
+  border-radius: 4px;
+  box-shadow: 3px 3px 0 0 #111111;
+  line-height: 1.25;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+@utility hl-yellow {
+  background: #fde047;
+  color: #111111;
+  padding: 0.1em 0.32em;
+  border: 3px solid #111111;
+  border-radius: 4px;
+  box-shadow: 3px 3px 0 0 #111111;
+  line-height: 1.25;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.font-display {
+  font-family: var(--font-display);
+  /* 标准粗体（Inter Bold）：厚实但字形开阔、不压缩紧排，区别于海报特黑字体 */
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+/* 中文全角圆润逗号：统一字形/字重/颜色，字号随所在行继承（参考红圈“小星同学TX”后的逗号） */
+.hl-comma {
+  font-family:
+    'Noto Sans SC', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei',
+    sans-serif;
+  font-weight: 700;
+  color: #111111;
+}
+
+/* 粉/蓝高亮贴纸：鼠标移入轻微放大（1.05）并在原方向上再多倾斜一点，短促弹性回弹 */
+.hl-pink,
+.hl-blue {
+  rotate: 0deg;
+  transition:
+    scale 0.18s cubic-bezier(0.34, 1.56, 0.64, 1),
+    rotate 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.hl-pink:hover {
+  scale: 1.05;
+  rotate: -2deg; /* 叠加在基础 -1° 之上，合计约 -3° */
+}
+.hl-blue:hover {
+  scale: 1.05;
+  rotate: 2deg; /* 叠加在基础 +1° 之上，合计约 +3° */
+}
+
+/* 涂鸦小装饰轻微浮动 */
+@keyframes floaty {
+  0%,
+  100% {
+    transform: translateY(0) rotate(var(--tilt, 0deg));
+  }
+  50% {
+    transform: translateY(-6px) rotate(var(--tilt, 0deg));
+  }
+}
+.animate-floaty {
+  animation: floaty 3.5s ease-in-out infinite;
+}
+
+@keyframes wiggle {
+  0%,
+  100% {
+    transform: rotate(-2deg);
+  }
+  50% {
+    transform: rotate(2deg);
+  }
+}
+.animate-wiggle {
+  animation: wiggle 2.5s ease-in-out infinite;
+}
+
+/* 进入动画 */
+@keyframes pop-in {
+  0% {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.animate-pop-in {
+  animation: pop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+/* 打字机光标闪烁 */
+@keyframes caret-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+.animate-caret-blink-fast {
+  animation: caret-blink 0.7s steps(1) infinite;
+}
+.animate-caret-blink {
+  animation: caret-blink 1.1s steps(1) infinite;
+}
+
+/* 手账方格网格背景（淡灰细线，冷调近白底） */
+.bg-grid-notebook {
+  background-color: #f7f8f9;
+  background-image:
+    linear-gradient(to right, rgba(17, 24, 39, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(17, 24, 39, 0.06) 1px, transparent 1px);
+  background-size: 34px 34px;
+}
+
+/* 按钮/链接聚焦去掉默认蓝晕，换成粗边黑（搜索框由组件自身处理，不在此列） */
+button:focus-visible,
+a:focus-visible {
+  outline: 3px solid #111111;
+  outline-offset: 2px;
+}
+
+::selection {
+  background: #fde047;
+  color: #111111;
+}
